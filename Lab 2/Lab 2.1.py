@@ -1,3 +1,5 @@
+# Lab Question 2.1: Task Prioritization
+
 def compare_merge_quick_tasks(tasks):
     def comes_before(a, b):
         return (a[1], b[0]) > (b[1], a[0])
