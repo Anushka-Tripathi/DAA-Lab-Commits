@@ -1,72 +1,41 @@
-def compare_bubble_insertion(random_data, sorted_data, reverse_data):
-  def bubble_sort(arr):
-    data = list(arr)
-    n = len(data)
-    comparisons = 0
-    swaps = 0
-    for i  in range(n):
-      swapped = False
-      for j in range(0, n-i-1):
-        comparisons += 1
-        if data[j] > data[j+1]:
-          data[j], data[j+1] = data[j+1], data[j]
-          swaps += 1
-          swapped = True
-      if not swapped:
-        break
-    return data, comparisons, swaps
+# Lab Question 1.4: Execution Observation Table
 
-  def insertion_sort(arr):
-    data = list(arr)
-    n = len(data)
-    comparisons = 0
-    shifts =  0
-    for i in range(1,n):
-      key = data[i]
-      j = i-1
-      while j >= 0:
-        comparisons += 1
-        if data[j] > key:
-          data[j+1] = data[j]
-          shifts += 1
-          j -= 1
-        else:
-          break
-      data[j+1] = key
-    return data, comparisons, shifts
+import math
 
-  result = ["Sorting Performance Report"]
-
-  datasets = [
-    ("Random Dataset", random_data),
-    ("Sorted Dataset", sorted_data),
-    ("Reverse Dataset", reverse_data)
+def generate_execution_observation_table(sizes):
+  result = [
+    "Algorithm Execution Observation Table",
+    "InputSize RecursiveFactorial IterativeFactorial RecursiveFibonacci IterativeFibonacci LinearSearch BinarySearch BubbleSort InsertionSort"
   ]
+  
+  def fibonacci_calls(n):
+    if n <= 1:
+      return 1
+    return 1 + fibonacci_calls(n-1) + fibonacci_calls(n-2)
 
-  for item in datasets:
-    label = item[0]
-    data_arr = item[1]
-    
-    b_sorted, b_comp, b_swaps = bubble_sort(data_arr)
-    i_sorted, i_comp, i_shifts = insertion_sort(data_arr)
+  for n in sizes:
+    rec_factorial = n+1
+    iter_factorial = n
+    rec_fibonacci = fibonacci_calls(n)
+    iter_fibonacci = n
+    linear_search = n
 
-    if b_comp < i_comp:
-      better = "Bubble Sort"
-    elif i_comp < b_comp:
-      better = "Insertion Sort"
-    else:
-      better = "Both Equal"
+    binary_search = math.floor(math.log2(n))+1 if n > 0 else 0
 
-    b_sorted_str = " ".join(map(str, b_sorted))
-    i_sorted_str = " ".join(map(str, i_sorted))
+    bubble_sort = (n*(n-1))//2
+    insertion_sort = (n*(n-1))//2
 
-    result.append(f"{label}")
-    result.append(f"Bubble Sorted: {b_sorted_str}")
-    result.append(f"Bubble Comparisons: {b_comp}")
-    result.append(f"Bubble Swaps: {b_swaps}")
-    result.append(f"Insertion Sorted: {i_sorted_str}")
-    result.append(f"Insertion Comparisons: {i_comp}")
-    result.append(f"Insertion Shifts: {i_shifts}")
-    result.append(f"Better Algorithm: {better}")
-    
+    row_values = [
+      n,
+      rec_factorial,
+      iter_factorial,
+      rec_fibonacci,
+      iter_fibonacci,
+      linear_search,
+      binary_search,
+      bubble_sort,
+      insertion_sort
+    ]
+    result.append(" ".join(map(str,row_values)))
+
   return result
